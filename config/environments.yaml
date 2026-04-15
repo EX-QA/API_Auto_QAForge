@@ -1,0 +1,15 @@
+environments:
+  dev:
+    base_url: "http://localhost:5173/api/v1"
+    timeout: 30
+    verify_ssl: false
+  staging:
+    base_url: "https://staging-api.example.com"
+    timeout: 30
+    verify_ssl: true
+  prod:
+    base_url: "https://api.example.com"
+    timeout: 60
+    verify_ssl: true
+
+default: dev

@@ -1,0 +1,164 @@
+Register:
+  - title: "/auth/register - POST - 成功注册新用户"
+    request_data:
+      username: "api_auto_user"
+      email: "apiuser@163.com"
+      password: "Api!12345"
+    response_code: 201
+    response_body:
+      id: "9d882610-c4b4-438d-b737-ae7268e687b9"
+      username: "api_auto_user"
+      email: "apiuser@163.com"
+      role: "user"
+      createdAt: "2026-04-15T06:39:42.392Z"
+    type: 'success'
+  - title: "/auth/register - POST - 用户名为空"
+    request_data:
+      username: ""
+      email: "apiuser2@163.com"
+      password: "Api!12345"
+    response_code: 400
+    response_body:
+      error: "用户名、邮箱和密码都是必填项"
+    type: 'field_null'
+  - title: "/auth/register - POST - 邮箱为空"
+    request_data:
+      username: "api_auto_user_2"
+      email: ""
+      password: "Api!12345"
+    response_code: 400
+    response_body:
+      error: "用户名、邮箱和密码都是必填项"
+    type: 'field_null'
+  - title: "/auth/register - POST - 密码为空"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: ""
+    response_code: 400
+    response_body:
+      error: "用户名、邮箱和密码都是必填项"
+    type: 'field_null'
+  - title: "/auth/register - POST - 所有字段为空"
+    request_data:
+      username: ""
+      email: ""
+      password: ""
+    response_code: 400
+    response_body:
+      error: "用户名、邮箱和密码都是必填项"
+    type: 'field_null'
+  - title: "/auth/register - POST - 密码长度不足8位"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "Api!12"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码长度至少8个字符"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码无大写字母"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "api!12345"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个大写字母"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码无小写字母"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "API!12345"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个小写字母"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码无数字"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "api!apii"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个大写字母","密码必须包含至少一个数字"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码无特殊字符"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "Api12345"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个特殊字符"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码是纯数字"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "12345678"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个大写字母","密码必须包含至少一个小写字母","密码必须包含至少一个特殊字符"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 密码是纯字母"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "Apiapiapi"
+    response_code: 400
+    response_body:
+      error: "密码不符合安全要求"
+      details: ["密码必须包含至少一个数字","密码必须包含至少一个特殊字符"]
+    type: 'password_format_error'
+  - title: "/auth/register - POST - 用户名已存在"
+    request_data:
+      username: "api_auto_user"
+      email: "apiuser2@163.com"
+      password: "Api!12345"
+    response_code: 400
+    response_body:
+      error: "用户名或邮箱已被注册"
+    type: 'duplicate_error'
+  - title: "/auth/register - POST - 邮箱已存在"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser@163.com"
+      password: "Api!12345"
+    response_code: 400
+    response_body:
+      error: "用户名或邮箱已被注册"
+    type: 'duplicate_error'
+  - title: "/auth/register - POST - 密码正好8字符"
+    request_data:
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      password: "Api1234@"
+    response_code: 201
+    response_body:
+      id: "9d882610-c4b4-438d-b737-ae7268e687b9"
+      username: "api_auto_user_2"
+      email: "apiuser2@163.com"
+      role: "user"
+      createdAt: "2026-04-15T06:39:42.392Z"
+    type: 'success'
+  - title: "/auth/register - POST - 用户名超长（100字符）"
+    request_data:
+      username: "api_auto_user_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      email: "apiuserlong@163.com"
+      password: "Api1234@"
+    response_code: 201
+    response_body:
+      id: "9d882610-c4b4-438d-b737-ae7268e687b9"
+      username: "api_auto_user_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      email: "apiuserlong@163.com"
+      role: "user"
+      createdAt: "2026-04-15T06:39:42.392Z"
+    type: 'success'
