@@ -11,18 +11,28 @@ from utils.helpers import generate_random_email, generate_random_string
 
 class TestUserAPI:
 
+    @pytest.fixture(scope='class', autouse=True)
+    def create_pingcode_testplan(self, pingcode_client):
+        return pingcode_client.create_plan_and_add_testcases(suite_name='注册登录模块',
+                                                             plan_name='api_auto_用户注册',
+                                                             assignee_name='huan')
+
     @pytest.fixture(autouse=True)
-    def setup(self, api_client):
-        # self.client = api_client
+    def setup(self, api_client, create_pingcode_testplan):
+        self.client = api_client
         self.assertions = Assertions()
         self.user_flow = UserFlow(api_client)
+        self.testcase_register = create_pingcode_testplan
         print('setup')
 
     @pytest.mark.parametrize("testcases", load_test_data('register_cases.yaml')[0]['Register'])
-    def test_user_register(self, testcases):
+    def test_user_register(self, testcases, request):
         """注册功能测试"""
         # response = self.user_flow.register_user(username=username, email=email, password=password)
         # self.assertions.assert_status_code(response, expected_status_code)
+        # 测试函数可以通过 request fixture 获取当前节点（node），然后给它添加任意属性。在钩子中通过同一个 item.node 读取即可。
+        request.node.testcase_title = testcases['title']
+        request.node.testcase_dict = self.testcase_register
         if testcases['type'] == 'success':
             response = self.user_flow.register_user(username=testcases['request_data']['username'],
                                                     email=testcases['request_data']['email'],

@@ -89,9 +89,18 @@ class PingCodeClient:
                 testcase_id_list.append(value['id'])
         return testcase_id_list
 
+    def delete_test_plan_by_id(self, plan_id):
+        """
+        删除测试计划
+        """
+        delete_test_plan_url = f"{self.server_url}/v1/testhub/plans/{plan_id}"
+        response = requests.delete(url=delete_test_plan_url, headers=self.headers)
+        return response.json()
+
     def create_plan_and_add_testcases(self, suite_name, plan_name, assignee_name):
         """
         根据用例模块创建测试计划并添加测试用例
+        :return: 测试用例名字和执行用例id
         """
         add_testcases_to_plan_url = f"{self.server_url}/v1/testhub/runs/bulk"
         testcases_id = self.get_testcases_id_by_suite_name(suite_name)
@@ -109,11 +118,28 @@ class PingCodeClient:
         else:
             raise Exception("测试用例数量超过100，请分批添加")
         response = requests.post(url=add_testcases_to_plan_url, json=payload, headers=self.headers)
-        result_list = []
-        for result in response.json():
-            result_list.append(result['state'])
-        if 'failure' in result_list:
-            raise Exception("有测试用例添加失败")
-        else:
-            return True
+        # result_list = []
+        # for result in response.json():
+        #     result_list.append(result['state'])
+        # if 'failure' in result_list:
+        #     raise Exception("有测试用例添加失败")
+        # else:
+        #     return True
+        testcases_dict = {}
+        # 如果有用例添加失败？ 删除测试计划并重新添加？
+        for run in response.json():
+            if run['state'] == 'failure':
+                return None
+            else:
+                testcases_dict[run['run']['case']['title']] = run['run']['id']
+        return testcases_dict
+
+    def execute_testcase(self, run_id, status):
+        update_run_url = f"{self.server_url}/v1/testhub/runs/{run_id}"
+        status_id = '697b107907a26f9508d52036' if status == 'passed' else '697b107907a26f9508d52037'
+        payload = {
+            "status_id": status_id
+        }
+        response = requests.patch(url=update_run_url, json=payload, headers=self.headers)
+        return response
 

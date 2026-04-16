@@ -3,6 +3,8 @@ environments:
     base_url: "http://localhost:5173/api/v1"
     timeout: 30
     verify_ssl: false
+    pingcode_base_url: "https://open.pingcode.com"
+    pingcode_project_name: "API_QAForge"
   staging:
     base_url: "https://staging-api.example.com"
     timeout: 30

@@ -37,6 +37,22 @@ class Config:
     def verify_ssl(self):
         return self.get_env()["verify_ssl"]
 
+    @property
+    def pingcode_base_url(self):
+        return self.get_env()["pingcode_base_url"]
+
+    @property
+    def pingcode_client_id(self):
+        return os.getenv('PINGCODECLINETID')
+
+    @property
+    def pingcode_client_secret(self):
+        return os.getenv('PINGCODECLINETSECRET')
+
+    @property
+    def pingcode_project_name(self):
+        return self.get_env()["pingcode_project_name"]
+
 
 def get_config():
     return Config()
